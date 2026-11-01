@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useLocalStorage } from "@/hooks/use-local-storage"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -20,7 +21,7 @@ function formatDate(ts: number): string {
 }
 
 export default function App() {
-  const [entries, setEntries] = useState<Entry[]>([])
+  const [entries, setEntries] = useLocalStorage<Entry[]>("daylog.entries", [])
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
 
