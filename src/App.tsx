@@ -58,10 +58,14 @@ export default function App() {
         {entries.map((entry) => (
           <Card key={entry.id}>
             <CardHeader>
-              <CardTitle className="text-base">
-                {entry.title || entry.body.slice(0, 40)}
-              </CardTitle>
-              <p className="text-muted-foreground text-xs">{formatEntryDate(entry.createdAt)}</p>
+              <div className="flex items-center justify-between gap-2">
+                <CardTitle className="text-base">
+                  {entry.title || entry.body.slice(0, 40)}
+                </CardTitle>
+                <p className="text-muted-foreground text-xs">
+                  {formatEntryDate(entry.createdAt)}
+                </p>
+              </div>
             </CardHeader>
             {entry.body && <CardContent className="text-sm">{entry.body}</CardContent>}
           </Card>
