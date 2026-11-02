@@ -1,24 +1,10 @@
 import { useState } from "react"
 import { useLocalStorage } from "@/hooks/use-local-storage"
+import { formatEntryDate, type Entry } from "@/lib/entry"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-
-type Entry = {
-  id: string
-  title: string
-  body: string
-  createdAt: number
-}
-
-function formatDate(ts: number): string {
-  return new Date(ts).toLocaleDateString(undefined, {
-    month: "short",
-    day: "numeric",
-    weekday: "short",
-  })
-}
 
 export default function App() {
   const [entries, setEntries] = useLocalStorage<Entry[]>("daylog.entries", [])
@@ -75,7 +61,7 @@ export default function App() {
               <CardTitle className="text-base">
                 {entry.title || entry.body.slice(0, 40)}
               </CardTitle>
-              <p className="text-muted-foreground text-xs">{formatDate(entry.createdAt)}</p>
+              <p className="text-muted-foreground text-xs">{formatEntryDate(entry.createdAt)}</p>
             </CardHeader>
             {entry.body && <CardContent className="text-sm">{entry.body}</CardContent>}
           </Card>
