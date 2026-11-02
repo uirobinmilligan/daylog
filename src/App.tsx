@@ -62,9 +62,19 @@ export default function App() {
                 <CardTitle className="text-base">
                   {entry.title || entry.body.slice(0, 40)}
                 </CardTitle>
-                <p className="text-muted-foreground text-xs">
-                  {formatEntryDate(entry.createdAt)}
-                </p>
+                <div className="flex items-center gap-1">
+                  <p className="text-muted-foreground text-xs">
+                    {formatEntryDate(entry.createdAt)}
+                  </p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground h-7 px-2 text-xs"
+                    onClick={() => setEntries((prev) => prev.filter((e) => e.id !== entry.id))}
+                  >
+                    Delete
+                  </Button>
+                </div>
               </div>
             </CardHeader>
             {entry.body && <CardContent className="text-sm">{entry.body}</CardContent>}
