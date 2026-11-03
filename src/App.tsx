@@ -10,6 +10,7 @@ export default function App() {
   const [entries, setEntries] = useLocalStorage<Entry[]>("daylog.entries", [])
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
+  const [dark, setDark] = useState(false)
 
   function addEntry() {
     const text = title.trim() || body.trim()
@@ -24,7 +25,12 @@ export default function App() {
 
   return (
     <main className="mx-auto min-h-screen max-w-xl px-4 py-10">
-      <h1 className="mb-1 text-2xl font-semibold tracking-tight">daylog</h1>
+      <div className="mb-1 flex items-center justify-between">
+        <h1 className="text-2xl font-semibold tracking-tight">daylog</h1>
+        <Button variant="outline" size="sm" onClick={() => setDark((d) => !d)}>
+          {dark ? "Light" : "Dark"}
+        </Button>
+      </div>
       <p className="text-muted-foreground mb-6 text-sm">one note a day, keep the fog away</p>
 
       <Card className="mb-6">
