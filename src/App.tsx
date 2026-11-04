@@ -10,7 +10,7 @@ export default function App() {
   const [entries, setEntries] = useLocalStorage<Entry[]>("daylog.entries", [])
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
-  const [dark, setDark] = useState(false)
+  const [dark, setDark] = useLocalStorage<boolean>("daylog.theme", false)
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark)
