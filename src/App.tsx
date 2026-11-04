@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useLocalStorage } from "@/hooks/use-local-storage"
 import { formatEntryDate, type Entry } from "@/lib/entry"
 import { Button } from "@/components/ui/button"
@@ -11,6 +11,10 @@ export default function App() {
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
   const [dark, setDark] = useState(false)
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark)
+  }, [dark])
 
   function addEntry() {
     const text = title.trim() || body.trim()
