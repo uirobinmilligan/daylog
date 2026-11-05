@@ -1,5 +1,7 @@
 # daylog
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A minimal daily journal. One note a day, keep the fog away.
 
 Built with React, Vite, TypeScript, Tailwind CSS and shadcn/ui.
