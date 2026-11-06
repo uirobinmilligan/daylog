@@ -53,7 +53,11 @@ export default function App() {
             placeholder="What happened today?"
             rows={3}
           />
-          <Button onClick={addEntry} className="w-full sm:w-auto">
+          <Button
+            onClick={addEntry}
+            disabled={!title.trim() && !body.trim()}
+            className="w-full sm:w-auto"
+          >
             Save entry
           </Button>
         </CardContent>
