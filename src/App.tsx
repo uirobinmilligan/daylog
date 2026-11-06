@@ -17,8 +17,7 @@ export default function App() {
   }, [dark])
 
   function addEntry() {
-    const text = title.trim() || body.trim()
-    if (!text) return
+    if (!title.trim() && !body.trim()) return
     setEntries((prev) => [
       { id: crypto.randomUUID(), title: title.trim(), body: body.trim(), createdAt: Date.now() },
       ...prev,
