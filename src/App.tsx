@@ -34,7 +34,10 @@ export default function App() {
           {dark ? "Light" : "Dark"}
         </Button>
       </div>
-      <p className="text-muted-foreground mb-6 text-sm">one note a day, keep the fog away</p>
+      <p className="text-muted-foreground mb-6 text-sm">
+        one note a day, keep the fog away
+        {entries.length > 0 && <span className="text-xs"> · {entries.length} saved</span>}
+      </p>
 
       <Card className="mb-6">
         <CardHeader>
