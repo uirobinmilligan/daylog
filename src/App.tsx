@@ -43,25 +43,36 @@ export default function App() {
         <CardHeader>
           <CardTitle className="text-base">New entry</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
-          <Input
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Title (optional)"
-          />
-          <Textarea
-            value={body}
-            onChange={(e) => setBody(e.target.value)}
-            placeholder="What happened today?"
-            rows={3}
-          />
-          <Button
-            onClick={addEntry}
-            disabled={!title.trim() && !body.trim()}
-            className="w-full sm:w-auto"
+        <CardContent>
+          <form
+            className="space-y-3"
+            onSubmit={(e) => {
+              e.preventDefault()
+              addEntry()
+            }}
           >
-            Save entry
-          </Button>
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Title (optional)"
+            />
+            <Textarea
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              onKeyDown={(e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === "Enter") addEntry()
+              }}
+              placeholder="What happened today?"
+              rows={3}
+            />
+            <Button
+              type="submit"
+              disabled={!title.trim() && !body.trim()}
+              className="w-full sm:w-auto"
+            >
+              Save entry
+            </Button>
+          </form>
         </CardContent>
       </Card>
 
