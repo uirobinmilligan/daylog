@@ -11,19 +11,35 @@ export default function App() {
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
   const [dark, setDark] = useLocalStorage<boolean>("daylog.theme", false)
+  const [editingId, setEditingId] = useState<string | null>(null)
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark)
   }, [dark])
 
-  function addEntry() {
+  function saveEntry() {
     if (!title.trim() && !body.trim()) return
-    setEntries((prev) => [
-      { id: crypto.randomUUID(), title: title.trim(), body: body.trim(), createdAt: Date.now() },
-      ...prev,
-    ])
+    if (editingId) {
+      setEntries((prev) =>
+        prev.map((e) =>
+          e.id === editingId ? { ...e, title: title.trim(), body: body.trim() } : e,
+        ),
+      )
+    } else {
+      setEntries((prev) => [
+        { id: crypto.randomUUID(), title: title.trim(), body: body.trim(), createdAt: Date.now() },
+        ...prev,
+      ])
+    }
+    setEditingId(null)
     setTitle("")
     setBody("")
+  }
+
+  function startEdit(entry: Entry) {
+    setEditingId(entry.id)
+    setTitle(entry.title)
+    setBody(entry.body)
   }
 
   return (
@@ -41,14 +57,16 @@ export default function App() {
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle className="text-base">New entry</CardTitle>
+          <CardTitle className="text-base">
+            {editingId ? "Edit entry" : "New entry"}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <form
             className="space-y-3"
             onSubmit={(e) => {
               e.preventDefault()
-              addEntry()
+              saveEntry()
             }}
           >
             <Input
@@ -60,18 +78,33 @@ export default function App() {
               value={body}
               onChange={(e) => setBody(e.target.value)}
               onKeyDown={(e) => {
-                if ((e.metaKey || e.ctrlKey) && e.key === "Enter") addEntry()
+                if ((e.metaKey || e.ctrlKey) && e.key === "Enter") saveEntry()
               }}
               placeholder="What happened today?"
               rows={3}
             />
-            <Button
-              type="submit"
-              disabled={!title.trim() && !body.trim()}
-              className="w-full sm:w-auto"
-            >
-              Save entry
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                type="submit"
+                disabled={!title.trim() && !body.trim()}
+                className="w-full sm:w-auto"
+              >
+                {editingId ? "Save changes" : "Save entry"}
+              </Button>
+              {editingId && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => {
+                    setEditingId(null)
+                    setTitle("")
+                    setBody("")
+                  }}
+                >
+                  Cancel
+                </Button>
+              )}
+            </div>
           </form>
         </CardContent>
       </Card>
@@ -93,6 +126,14 @@ export default function App() {
                   <p className="text-muted-foreground text-xs">
                     {formatEntryDate(entry.createdAt)}
                   </p>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground h-7 px-2 text-xs"
+                    onClick={() => startEdit(entry)}
+                  >
+                    Edit
+                  </Button>
                   <Button
                     variant="ghost"
                     size="sm"
