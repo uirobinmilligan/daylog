@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useLocalStorage } from "@/hooks/use-local-storage"
-import { formatEntryDate, type Entry } from "@/lib/entry"
+import { type Entry } from "@/lib/entry"
+import { EntryCard } from "@/components/entry-card"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -116,37 +117,12 @@ export default function App() {
           </p>
         )}
         {entries.map((entry) => (
-          <Card key={entry.id}>
-            <CardHeader>
-              <div className="flex items-center justify-between gap-2">
-                <CardTitle className="text-base">
-                  {entry.title || entry.body.slice(0, 40)}
-                </CardTitle>
-                <div className="flex items-center gap-1">
-                  <p className="text-muted-foreground text-xs">
-                    {formatEntryDate(entry.createdAt)}
-                  </p>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-muted-foreground h-7 px-2 text-xs"
-                    onClick={() => startEdit(entry)}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-muted-foreground h-7 px-2 text-xs"
-                    onClick={() => setEntries((prev) => prev.filter((e) => e.id !== entry.id))}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-            {entry.body && <CardContent className="text-sm">{entry.body}</CardContent>}
-          </Card>
+          <EntryCard
+            key={entry.id}
+            entry={entry}
+            onEdit={() => startEdit(entry)}
+            onDelete={() => setEntries((prev) => prev.filter((e) => e.id !== entry.id))}
+          />
         ))}
       </div>
     </main>
