@@ -13,10 +13,16 @@ export default function App() {
   const [body, setBody] = useState("")
   const [dark, setDark] = useLocalStorage<boolean>("daylog.theme", false)
   const [editingId, setEditingId] = useState<string | null>(null)
+  const [query, setQuery] = useState("")
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark)
   }, [dark])
+
+  const needle = query.trim().toLowerCase()
+  const visible = needle
+    ? entries.filter((e) => `${e.title} ${e.body}`.toLowerCase().includes(needle))
+    : entries
 
   function saveEntry() {
     if (!title.trim() && !body.trim()) return
@@ -55,6 +61,15 @@ export default function App() {
         one note a day, keep the fog away
         {entries.length > 0 && <span className="text-xs"> · {entries.length} saved</span>}
       </p>
+
+      {entries.length > 0 && (
+        <Input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search entries"
+          className="mb-6"
+        />
+      )}
 
       <Card className="mb-6">
         <CardHeader>
@@ -116,7 +131,7 @@ export default function App() {
             No entries yet — write the first one.
           </p>
         )}
-        {entries.map((entry) => (
+        {visible.map((entry) => (
           <EntryCard
             key={entry.id}
             entry={entry}
