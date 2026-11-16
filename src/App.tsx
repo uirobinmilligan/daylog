@@ -131,6 +131,11 @@ export default function App() {
             No entries yet — write the first one.
           </p>
         )}
+        {entries.length > 0 && visible.length === 0 && (
+          <p className="text-muted-foreground py-8 text-center text-sm">
+            Nothing matches "{query.trim()}".
+          </p>
+        )}
         {visible.map((entry) => (
           <EntryCard
             key={entry.id}
