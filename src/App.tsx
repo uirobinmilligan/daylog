@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useLocalStorage } from "@/hooks/use-local-storage"
 import { type Entry } from "@/lib/entry"
 import { EntryCard } from "@/components/entry-card"
@@ -14,10 +14,23 @@ export default function App() {
   const [dark, setDark] = useLocalStorage<boolean>("daylog.theme", false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [query, setQuery] = useState("")
+  const searchRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark)
   }, [dark])
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key !== "/" || editingId) return
+      const tag = (e.target as HTMLElement).tagName
+      if (tag === "INPUT" || tag === "TEXTAREA") return
+      e.preventDefault()
+      searchRef.current?.focus()
+    }
+    window.addEventListener("keydown", onKey)
+    return () => window.removeEventListener("keydown", onKey)
+  }, [editingId])
 
   const needle = query.trim().toLowerCase()
   const visible = needle
@@ -64,6 +77,7 @@ export default function App() {
 
       {entries.length > 0 && (
         <Input
+          ref={searchRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search entries"
