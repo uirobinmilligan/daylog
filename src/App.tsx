@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useLocalStorage } from "@/hooks/use-local-storage"
 import { type Entry } from "@/lib/entry"
 import { EntryCard } from "@/components/entry-card"
+import { downloadText, toMarkdown } from "@/lib/export"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -66,9 +67,20 @@ export default function App() {
     <main className="mx-auto min-h-screen max-w-xl px-4 py-10">
       <div className="mb-1 flex items-center justify-between">
         <h1 className="text-2xl font-semibold tracking-tight">daylog</h1>
-        <Button variant="outline" size="sm" onClick={() => setDark((d) => !d)}>
-          {dark ? "Light" : "Dark"}
-        </Button>
+        <div className="flex items-center gap-2">
+          {entries.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => downloadText("daylog.md", toMarkdown(entries), "text/markdown")}
+            >
+              Export md
+            </Button>
+          )}
+          <Button variant="outline" size="sm" onClick={() => setDark((d) => !d)}>
+            {dark ? "Light" : "Dark"}
+          </Button>
+        </div>
       </div>
       <p className="text-muted-foreground mb-6 text-sm">
         one note a day, keep the fog away
