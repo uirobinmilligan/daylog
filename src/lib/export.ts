@@ -14,6 +14,10 @@ export function toMarkdown(entries: Entry[]): string {
   return lines.join("\n")
 }
 
+export function toJson(entries: Entry[]): string {
+  return JSON.stringify(entries, null, 2)
+}
+
 export function downloadText(filename: string, text: string, mime = "text/plain") {
   const url = URL.createObjectURL(new Blob([text], { type: mime }))
   const a = document.createElement("a")

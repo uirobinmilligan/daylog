@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useLocalStorage } from "@/hooks/use-local-storage"
 import { type Entry } from "@/lib/entry"
 import { EntryCard } from "@/components/entry-card"
-import { downloadText, toMarkdown } from "@/lib/export"
+import { downloadText, toJson, toMarkdown } from "@/lib/export"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -69,13 +69,22 @@ export default function App() {
         <h1 className="text-2xl font-semibold tracking-tight">daylog</h1>
         <div className="flex items-center gap-2">
           {entries.length > 0 && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => downloadText("daylog.md", toMarkdown(entries), "text/markdown")}
-            >
-              Export md
-            </Button>
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => downloadText("daylog.md", toMarkdown(entries), "text/markdown")}
+              >
+                Export md
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => downloadText("daylog.json", toJson(entries), "application/json")}
+              >
+                Export json
+              </Button>
+            </>
           )}
           <Button variant="outline" size="sm" onClick={() => setDark((d) => !d)}>
             {dark ? "Light" : "Dark"}
