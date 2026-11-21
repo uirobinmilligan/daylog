@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { useLocalStorage } from "@/hooks/use-local-storage"
 import { type Entry } from "@/lib/entry"
 import { EntryCard } from "@/components/entry-card"
+import { ActivityStrip } from "@/components/activity-strip"
 import { downloadText, toJson, toMarkdown } from "@/lib/export"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -95,6 +96,8 @@ export default function App() {
         one note a day, keep the fog away
         {entries.length > 0 && <span className="text-xs"> · {entries.length} saved</span>}
       </p>
+
+      {entries.length > 0 && <ActivityStrip entries={entries} />}
 
       {entries.length > 0 && (
         <Input
