@@ -104,6 +104,9 @@ export default function App() {
           ref={searchRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setQuery("")
+          }}
           placeholder="Search entries"
           className="mb-6"
         />
