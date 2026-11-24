@@ -19,9 +19,11 @@ pnpm dev
 - [x] Entry list (newest first)
 - [x] Persist entries to localStorage
 - [x] Delete entries
+- [x] Edit entries in place
+- [x] Search entries
 - [ ] Calendar heatmap of activity
 - [ ] Markdown support in entry bodies
-- [ ] Export entries as JSON / Markdown
+- [x] Export entries as JSON / Markdown
 
 ## License
 
