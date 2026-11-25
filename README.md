@@ -6,6 +6,9 @@ A minimal daily journal. One note a day, keep the fog away.
 
 Built with React, Vite, TypeScript, Tailwind CSS and shadcn/ui.
 
+Entries live in localStorage. Press <kbd>/</kbd> to jump to search, and export
+the whole journal as Markdown or JSON from the header.
+
 ## Getting started
 
 ```sh
